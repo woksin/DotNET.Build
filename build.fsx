@@ -1,5 +1,5 @@
-#I "Source/Solutions/packages/FAKE/tools/"
-#I "Source/Solutions/packages/FAKE/FSharp.Data/lib/net40"
+#I "packages/FAKE/tools/"
+#I "packages/FAKE/FSharp.Data/lib/net40"
 #r "FakeLib.dll"
 #r "FSharp.Data.dll" 
 open Fake
@@ -93,7 +93,7 @@ let performGitCommand arguments:string =
 let gitVersion repositoryDir = 
     let isWindows = System.Environment.OSVersion.Platform = PlatformID.Win32NT
     let arguments = sprintf "%s /output json /showvariable SemVer" repositoryDir
-    let gitVersionExecutable = "Source/Solutions/packages/GitVersion.CommandLine/tools/GitVersion.exe"
+    let gitVersionExecutable = "packages/GitVersion.CommandLine/tools/GitVersion.exe"
     let processName = if isWindows then gitVersionExecutable else "mono"
     let fullArguments = if isWindows then arguments else sprintf "%s %s" gitVersionExecutable arguments
 
@@ -161,24 +161,17 @@ let company = "Dolittle"
 let copyright = "(C) 2008 - 2017 Dolittle"
 let trademark = ""
 
-let solutionFile = "./Source/Solutions/Bifrost_All.sln"
 
-let sourceDirectory = sprintf "%s/Source" __SOURCE_DIRECTORY__
-let artifactsDirectory = sprintf "%s/artifacts" __SOURCE_DIRECTORY__
+let sourceDirectory = "./Source"
+let artifactsDirectory = "./artifacts"
 let nugetDirectory = sprintf "%s/nuget" artifactsDirectory
 
 let projectDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
                         |> Array.filter(fun d -> d.Name.Contains("Spec") = false )
 
-let projectJsonFiles = File.ReadAllLines "projects.txt"
-                        |> Array.map(fun f -> new FileInfo(sprintf "./Source/%s/project.json" f))
+let projectJsonFiles = [new FileInfo("Source/project.json")]
 
-let specDirectories = DirectoryInfo(sourceDirectory).GetDirectories "Bifrost*" 
-                        |> Array.filter(fun d -> d.Name.Contains("Spec") )
-
-let specProjectJsonFiles = specDirectories 
-                        |> Array.map(fun d -> filesInDirMatching "project.json" d)
-                        |> Array.concat
+let specProjectJsonFiles = [new FileInfo("Specifications/project.json")]
 
 let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
 
@@ -189,93 +182,32 @@ let currentBranch = getCurrentBranch
 let envBuildNumber = System.Environment.GetEnvironmentVariable("APPVEYOR_BUILD_NUMBER")
 let buildNumber = if String.IsNullOrWhiteSpace(envBuildNumber) then 0 else envBuildNumber |> int
 
-let versionFromGitTag = getVersionFromGitTag buildNumber 
-let lastNuGetVersion = getLatestNuGetVersion
-let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
+//let versionFromGitTag = getVersionFromGitTag buildNumber 
+//let lastNuGetVersion = getLatestNuGetVersion
+//let sameVersion = versionFromGitTag.DoesMajorMinorPatchMatch lastNuGetVersion
 // Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
-let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPreRelease && lastNuGetVersion.IsPreRelease)
-System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then "true" else "false")
+//let isReleaseBuild = sameVersion && (not versionFromGitTag.IsPreRelease && lastNuGetVersion.IsPreRelease)
+//System.Environment.SetEnvironmentVariable("RELEASE_BUILD",if isReleaseBuild then "true" else "false")
 
-let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
+//let buildVersion = BuildVersion(versionFromGitTag.Major, versionFromGitTag.Minor, versionFromGitTag.Patch, buildNumber, versionFromGitTag.PreReleaseString,isReleaseBuild)
+let buildVersion = BuildVersion(1,0,0,0,"", false)
+let isReleaseBuild = false
 
 // Package related
-let nugetPath = "./Source/Solutions/.nuget/NuGet.exe"
+let nugetPath = "./Build/.nuget/NuGet.exe"
 let nugetUrl = "https://www.nuget.org/api/v2/package"
 let mygetUrl = "https://www.myget.org/F/bifrost/api/v2/package"
 let nugetKey = System.Environment.GetEnvironmentVariable("NUGET_KEY")
 let mygetKey = System.Environment.GetEnvironmentVariable("MYGET_KEY")
 
-// Documentation related
-let documentationUser = System.Environment.GetEnvironmentVariable("DOCS_USER")
-let documentationUserToken = System.Environment.GetEnvironmentVariable("DOCS_TOKEN")
-let documentationSolutionFile = "Source/Solutions/Bifrost_Documentation.sln"
-
-printfn "<----------------------- BUILD DETAILS ----------------------->"
-printfn "Git Branch : %s" currentBranch
-printfn "Git Version : %s" (versionFromGitTag.AsString())
-printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
-printfn "Build version : %s" (buildVersion.AsString())
-printfn "Version Same : %b" sameVersion
-printfn "Release Build : %b" isReleaseBuild
-printfn "Documentation User : %s" documentationUser
-printfn "<----------------------- BUILD DETAILS ----------------------->"
-
-
-let getContributors = 
-    trace "Get contributors"
-    let headers = [ 
-        UserAgent documentationUser
-        Accept HttpContentTypes.Json 
-    ]
-    let jsonAsString = Http.RequestString("https://api.github.com/repos/dolittle/bifrost/contributors", headers = headers )
-    JsonValue.Parse(jsonAsString)
-    //let rec contributorsAsObject json =
-    //    match json with
-    //    | JsonValue.Record properties ->
-    //    |> JsonValue.Record
-
-let getUser(user: string) =
-    tracef "Get user : '%s'" user
-    let headers = [ 
-        UserAgent documentationUser
-        Accept HttpContentTypes.Json 
-    ]
-    let requestString = sprintf "https://api.github.com/users/%s" user
-    let jsonAsString = Http.RequestString(requestString, headers = headers )
-    JsonValue.Parse(jsonAsString)
-
-let getContributorsForFile(file:string) = 
-    performGitCommand(sprintf "shortlog -se %s" file)
-
-
-
-//*****************************************************************************
-//* Restore Packages
-//*****************************************************************************
-Target "RestorePackages" (fun _ ->
-    solutionFile
-     |> RestoreMSSolutionPackages (fun p ->
-         { p with
-             OutputPath = "./Source/Solutions/packages"
-             Retries = 4 })
-)
-
-//*****************************************************************************
-//* Build
-//*****************************************************************************
-Target "Build" <| fun _ ->
-    let buildMode = getBuildParamOrDefault "buildMode" "Release"
-    let setParams defaults =
-        { defaults with
-            Verbosity = Some MSBuildVerbosity.Minimal
-            Properties =
-                [
-                    "Optimize", "True"
-                ]
-        }
-
-    build setParams solutionFile
-        |> DoNothing
+// printfn "<----------------------- BUILD DETAILS ----------------------->"
+// printfn "Git Branch : %s" currentBranch
+// printfn "Git Version : %s" (versionFromGitTag.AsString())
+// printfn "Last NuGet version : %s" (lastNuGetVersion.AsString())
+// printfn "Build version : %s" (buildVersion.AsString())
+// printfn "Version Same : %b" sameVersion
+// printfn "Release Build : %b" isReleaseBuild
+// printfn "<----------------------- BUILD DETAILS ----------------------->"
 
 
 //*****************************************************************************
@@ -286,21 +218,6 @@ Target "UpdateVersionOnBuildServer" (fun _ ->
         tracef "Updating build version for AppVeyor to %s" (buildVersion.AsString())
         let allArgs = sprintf "UpdateBuild -Version \"%s\"" (buildVersion.AsString())
         spawnProcess("appveyor", allArgs) |> ignore
-)
-
-
-//*****************************************************************************
-//* Update Assembly Info files with correct information
-//*****************************************************************************
-Target "UpdateAssemblyInfoFiles" (fun _ ->
-    let version = sprintf "%d.%d.%d.%d" buildVersion.Major buildVersion.Minor buildVersion.Patch buildVersion.Build
-    CreateCSharpAssemblyInfoWithConfig "Source/Common/CommonAssemblyInfo.cs" [
-        Attribute.Company company
-        Attribute.Copyright copyright
-        Attribute.Trademark trademark
-        Attribute.Version version
-        Attribute.FileVersion version 
-    ] <| AssemblyInfoFileConfig(false)
 )
 
 
@@ -317,7 +234,7 @@ Target "UpdateProjectJsonFiles" (fun _ ->
 //*****************************************************************************
 //* Build all .NET Core projects
 //*****************************************************************************
-Target "DotNetCoreBuild" (fun _ ->
+Target "Build" (fun _ ->
     for file in projectJsonFiles do
         let restoreArgs = sprintf "restore %s" file.FullName
         let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
@@ -334,7 +251,7 @@ Target "DotNetCoreBuild" (fun _ ->
 //*****************************************************************************
 //* Run .NET CLI Test
 //*****************************************************************************
-Target "DotNetTest" (fun _ ->
+Target "Specs" (fun _ ->
     for file in specProjectJsonFiles do
         let restoreArgs = sprintf "restore %s" file.FullName
         let restoreMessage = sprintf "**** Restoring for : %s *****" restoreArgs
@@ -357,86 +274,6 @@ Target "PackageForNuGet" (fun _ ->
         ProcessHelper.Shell.Exec("dotnet", args=allArgs) |> ignore
 )
 
-
-//*****************************************************************************
-//* Run MSpec Specifications
-//*****************************************************************************
-Target "MSpec" (fun _ -> 
-    let specFiles = !! ("Source/**/*.Specs.dll")
-                    |> Seq.toArray
-                    |> String.concat " "
-
-    let allArgs = sprintf "%s" specFiles
-    let mspec = if appveyor then "mspec" else "Tools/MSpec/mspec-clr4.exe"
-    ProcessHelper.Shell.Exec(mspec, args=allArgs) |> ignore
-)
-
-//*****************************************************************************
-//* Run JavaScript Specifications
-//*****************************************************************************
-Target "JavaScriptSpecs" (fun _ ->
-    if Directory.Exists("TestResults") = false then Directory.CreateDirectory("TestResults") |> ignore
-    let allArgs = sprintf "Forseti.yaml ../TestResults/forseti.testresults.trx BUILD-CI"
-    let errorCode = ProcessHelper.Shell.Exec("Tools/Forseti/Forseti.Output.exe", args=allArgs, dir="Source")
-    if errorCode <> 0 then failwith "Running JavaScript specs failed"
-)
-
-//*****************************************************************************
-//* Generate contributors metadata for all files
-//*****************************************************************************
-Target "GenerateContributorsMetadata" (fun _ ->
-    tracef "%O" getContributors
-
-    //let files = !! ("*.*")
-    //                |> Seq.toArray
-
-
-
-
-)
-
-//*****************************************************************************
-//* Generate and publish documentation to site
-//*****************************************************************************
-Target "GenerateAndPublishDocumentation" (fun _ ->
-    if String.IsNullOrEmpty(documentationUser) then
-        trace "Skipping building and publishing documentation - user not set"
-    else
-        documentationSolutionFile
-         |> RestoreMSSolutionPackages (fun p ->
-             { p with
-                 OutputPath = "./Source/Solutions/packages"
-                 Retries = 4 })
-
-        let buildMode = getBuildParamOrDefault "buildMode" "Release"
-        let setParams defaults =
-            { defaults with
-                Verbosity = Some MSBuildVerbosity.Minimal
-                Properties =
-                    [
-                        "Optimize", "True"
-                    ]
-            }
-
-        build setParams documentationSolutionFile
-            |> DoNothing
-
-        let siteDir = "dolittle.github.io"
-        ProcessHelper.Shell.Exec("git" , args="clone https://github.com/dolittle/dolittle.github.io.git") |> ignore
-        FileHelper.CopyDir "dolittle.github.io/bifrost" "Source/Documentation/_site" (fun f -> true)
-
-        ProcessHelper.Shell.Exec("git" , args="add .", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.name \"Bifrost Documentation Account\"", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="config --global user.email \"bifrost@dolittle.com\"", dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="commit -m \"<-- Autogenerated : documentation updated -->\"", dir=siteDir) |> ignore
-        let remoteUrl = sprintf "remote set-url origin https://%s:%s@github.com/dolittle/dolittle.github.io.git" documentationUser documentationUserToken
-        ProcessHelper.Shell.Exec("git" , args=remoteUrl, dir=siteDir) |> ignore
-        ProcessHelper.Shell.Exec("git" , args="push", dir=siteDir) |> ignore
-        
-        FileHelper.DeleteDir siteDir
-)
-
-
 //*****************************************************************************
 //* Deploy to NuGet if release mode
 //*****************************************************************************
@@ -455,65 +292,30 @@ Target "DeployNugetPackages" (fun _ ->
         trace "Not deploying to NuGet - no key set"
 )
 
-// ******** Pre Info 
-// Get Build Number from BuildServer
-// Get Version from Git Tag
-// Determine if it is a release build - check if the latest NuGet deployment is a release build matching version number or not.
-// If tag is not a release tag - Append build number
-
-// ******** BUILD:
-// Restore packages
-// Create Assembly Version from Tag + Build Number -> Update Assembly Info
-// Build
-// Run MSpec Specs
-// Run JavaScript Specs
-//
-// If daily or alpha or beta - create nuget packages
-//     If daily and not alpha or beta -> Deploy to MyGet
-//     Else deploy to NuGet
-// Note: Deploy package only if it is a release build or build parameter saying it should publish package
-//
-// Clone Documentation Repository
-// DocFX for documentation -> Into Documentation repository
-// Push changes to Documentation Repository
-
 // Build pipeline
 Target "BuildRelease" DoNothing
 "UpdateVersionOnBuildServer" ==> "BuildRelease"
-"RestorePackages" ==> "BuildRelease"
 "Build" ==> "BuildRelease"
 
 // Package pipeline
 Target "Package" DoNothing
-"UpdateAssemblyInfoFiles" ==> "Package"
 "UpdateProjectJsonFiles" ==> "Package"
-"DotNetCoreBuild" ==> 
 "PackageForNuGet" ==> "Package"
-
-// Specifications pipeline
-Target "Specifications" DoNothing
-"MSpec" ==> "Specifications"
-"JavaScriptSpecs" ==> "Specifications"
 
 // Deployment pipeline
 Target "Deploy" DoNothing
 "DeployNugetPackages" ==> "Deploy"
 
-Target "BuildAndSpecs" DoNothing
-"BuildRelease" ==> "BuildAndSpecs"
-"Specifications" ==> "BuildAndSpecs"
-
 Target "PackageAndDeploy" DoNothing
 "Package" ==> "PackageAndDeploy"
-"GenerateAndPublishDocumentation" ==> "PackageAndDeploy"
 "Deploy" ==> "PackageAndDeploy"
 
-Target "DotNetCoreBuildAndSpecs" DoNothing
-"DotNetCoreBuild" ==> "DotNetCoreBuildAndSpecs"
-"DotNetTest" ==> "DotNetCoreBuildAndSpecs"
+Target "BuildAndSpecs" DoNothing
+"Build" ==> "BuildAndSpecs"
+"Specs" ==> "BuildAndSpecs"
 
 Target "All" DoNothing
 "BuildAndSpecs" ==> "All"
-"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
+//"PackageAndDeploy" =?> ("All",  currentBranch.Equals("master") or currentBranch.Equals("HEAD"))
 
 RunTargetOrDefault "All"
