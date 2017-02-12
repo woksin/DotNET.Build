@@ -9,7 +9,6 @@ pushd %~dp0
 
 SETLOCAL
 SET CACHED_NUGET=%LocalAppData%\NuGet\NuGet.exe
-SET SOLUTION_DIR=Source\Solutions
 SET NUGET_DIR=.nuget
 SET PACKAGE_DIR=packages
 
