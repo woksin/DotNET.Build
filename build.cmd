@@ -1,5 +1,7 @@
 @echo off
 
+echo BUILDING
+
 rem Borrowed and inspired from Akka.net : https://github.com/akkadotnet/akka.net
 
 pushd %~dp0
