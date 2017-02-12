@@ -10,8 +10,8 @@ pushd %~dp0
 SETLOCAL
 SET CACHED_NUGET=%LocalAppData%\NuGet\NuGet.exe
 SET SOLUTION_DIR=Source\Solutions
-SET NUGET_DIR=%SOLUTION_DIR%\.nuget
-SET PACKAGE_DIR=%SOLUTION_DIR%\packages
+SET NUGET_DIR=.nuget
+SET PACKAGE_DIR=packages
 
 IF EXIST %CACHED_NUGET% goto copynuget
 echo Downloading latest version of NuGet.exe...
