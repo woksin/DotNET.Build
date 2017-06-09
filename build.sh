@@ -26,4 +26,4 @@ mono $NUGET_PATH/NuGet.exe install GitVersion.CommandLine -OutputDirectory $PACK
 
 export encoding=utf-8
 
-mono $PACKAGES_PATH/FAKE/tools/FAKE.exe ./Build/build.fsx "$@"
+mono $PACKAGES_PATH/FAKE/tools/FAKE.exe ./Fake/build.fsx "$@"
