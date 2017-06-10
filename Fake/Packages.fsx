@@ -1,3 +1,5 @@
+#I "packages/FAKE/tools/"
+
 open System.IO
 
 #load "SpawnProcess.fsx"
