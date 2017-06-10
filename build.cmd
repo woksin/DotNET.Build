@@ -20,7 +20,7 @@ IF NOT EXIST %LocalAppData%\NuGet md %LocalAppData%\NuGet
 :copynuget
 IF EXIST %NUGET_DIR%\nuget.exe goto restore
 md %NUGET_DIR%
-copy %CACHED_NUGET%\.nuget\nuget.exe > nul
+copy %CACHED_NUGET%\nuget.exe %NUGET_DIR% > nul
 
 :restore
 
