@@ -16,7 +16,7 @@ PACKAGES_PATH="$SCRIPT_PATH/packages";
 
 if ! [ -f $NUGET_PATH/.nuget/nuget.exe ] 
     then
-        wget "https://www.nuget.org/nuget.exe" -P $$NUGET_PATH/
+        wget "https://www.nuget.org/nuget.exe" -P "$NUGET_PATH"
 fi
 
 mono $NUGET_PATH/NuGet.exe update -self
