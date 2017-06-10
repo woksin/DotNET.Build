@@ -1,4 +1,5 @@
 #I "packages/FAKE/tools/"
+open Fake
 
 open System.IO
 

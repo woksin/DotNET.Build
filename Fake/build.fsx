@@ -1,4 +1,5 @@
 #I "packages/FAKE/tools/"
+open Fake
 
 #load "BuildVersion.fsx"
 #load "SpawnProcess.fsx"
