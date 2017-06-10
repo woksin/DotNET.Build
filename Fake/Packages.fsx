@@ -1,9 +1,8 @@
-#I "packages/FAKE/tools/"
 open Fake
-
 open System.IO
 
-#load "SpawnProcess.fsx"
+#load "ProcessHelpers.fsx"
+open ProcessHelpers
 
 //*****************************************************************************
 //* Restore Packages
@@ -11,7 +10,7 @@ open System.IO
 Target "RestorePackages" (fun _ ->
     trace "**** Restoring packages ****"
 
-    spawnProcess("dotnet", "restore");
+    ProcessHelpers.Spawn("dotnet", "restore") |> ignore
     
     // let currentDir = Directory.GetCurrentDirectory()
 
