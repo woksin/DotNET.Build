@@ -30,8 +30,8 @@ pushd %~dp0
 
 %NUGET_DIR%\NuGet.exe update -self
 
-%NUGET_DIR%\NuGet.exe install FAKE -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 4.16.1
-%NUGET_DIR%\NuGet.exe install FSharp.Data -ConfigFile %NUGET_DIR%\Nuget.Config -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.3.2
+%NUGET_DIR%\NuGet.exe install FAKE -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 4.16.1
+%NUGET_DIR%\NuGet.exe install FSharp.Data -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.3.2
 
 rem cls
 
