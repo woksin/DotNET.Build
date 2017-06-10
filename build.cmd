@@ -36,6 +36,6 @@ pushd %~dp0
 rem cls
 
 set encoding=utf-8
-%PACKAGE_DIR%\FAKE\tools\FAKE.exe Build/Fake/build.fsx %*
+%PACKAGE_DIR%\FAKE\tools\FAKE.exe Fake\build.fsx %*
 
 popd
