@@ -15,8 +15,8 @@ Target "Test" (fun _ ->
     let projects = !! "./Specifications/**/*.csproj"
 
     let testProject project =
-        tracef "Running tests for : %s" project
-        let args = sprintf "test %s" (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
+        tracef "Running tests for : %s\n" project
+        let args = sprintf "test %s %s" project (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
         ProcessHelpers.Spawn("dotnet",args) |> ignore
 
         let resultsFile = "./TestResults/results.trx"
