@@ -1,3 +1,4 @@
+open System
 open System.IO
 open Fake
 open Fake.DotNetCli
@@ -5,13 +6,11 @@ open Fake.DotNetCli
 #load "ProcessHelpers.fsx"
 open ProcessHelpers
 
-let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
-let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
+let appveyor = if String.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
+let appveyor_job_id = Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 Target "Test" (fun _ ->
     trace "**** Test ****"
-
-    let currentDir = Directory.GetCurrentDirectory()
 
     let projects = !! "./Specifications/**/*.csproj"
 
