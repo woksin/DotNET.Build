@@ -19,7 +19,8 @@ Target "Test" (fun _ ->
         let args = sprintf "test %s %s" project (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
         ProcessHelpers.Spawn("dotnet",args) |> ignore
 
-        let resultsFile = "./TestResults/results.trx"
+        let resultsFile = Path.Combine(Path.GetDirectoryName(project),"TestResults","results.trx")
+        tracef "Using results file : %s\n" resultsFile
         if appveyor && File.Exists(resultsFile) then
             let webClient = new System.Net.WebClient()
             let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
