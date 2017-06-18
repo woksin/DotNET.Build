@@ -24,7 +24,7 @@ Target "Test" (fun _ ->
         if appveyor && File.Exists(resultsFile) then
             let webClient = new System.Net.WebClient()
             let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
-            tracef "Posting results to %s" url
+            tracef "Posting results to %s\n" url
             webClient.UploadFile(url, resultsFile) |> ignore        
 
     projects |> Seq.iter (testProject)
