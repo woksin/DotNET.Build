@@ -21,9 +21,9 @@ open Fake
 // Targets
 ///////////////////////////////////////////////////////////////////////////////
 Target "RestoreCompileTest" DoNothing
-"RestorePackages" ==> "All"
-"Compile" ==> "All"
-"Test" ==> "All"
+"RestorePackages" ==> "RestoreCompileTest"
+"Compile" ==> "RestoreCompileTest"
+"Test" ==> "RestoreCompileTest"
 
 Target "All" DoNothing
 "RestoreCompileTest" ==> "All"
