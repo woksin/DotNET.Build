@@ -3,6 +3,7 @@ open System.IO
 
 #load "ProcessHelpers.fsx"
 open ProcessHelpers
+open Fake.DotNetCli
 
 //*****************************************************************************
 //* Restore Packages
@@ -10,7 +11,13 @@ open ProcessHelpers
 Target "RestorePackages" (fun _ ->
     trace "**** Restoring packages ****"
 
-    ProcessHelpers.Spawn("dotnet", "restore") |> ignore
+    DotNetCli.Restore
+        (fun _ ->
+            { _ with
+                NoCache = true
+            })
+
+    //ProcessHelpers.Spawn("dotnet", "restore") |> ignore
     
     // let currentDir = Directory.GetCurrentDirectory()
 
