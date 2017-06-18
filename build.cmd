@@ -18,8 +18,8 @@ copy %CACHED_NUGET% %NUGET_DIR% > nul
 :restore
 
 %NUGET_DIR%\NuGet.exe update -self
-%NUGET_DIR%\NuGet.exe install FAKE -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 4.16.1
-%NUGET_DIR%\NuGet.exe install FSharp.Data -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.3.2
+%NUGET_DIR%\NuGet.exe install FAKE -OutputDirectory %PACKAGE_DIR% -ExcludeVersion -Version 4.61.3
+%NUGET_DIR%\NuGet.exe install FSharp.Data -OutputDirectory %PACKAGE_DIR%\FAKE -ExcludeVersion -Version 2.3.3
 
 SET encoding=utf-8
 %PACKAGE_DIR%\FAKE\tools\FAKE.exe Build\Fake\build.fsx %*
