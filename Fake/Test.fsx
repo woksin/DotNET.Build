@@ -1,17 +1,31 @@
+open System.IO
 open Fake
 open Fake.DotNetCli
+
+#load "ProcessHelpers.fsx"
+open ProcessHelpers
+
+let appveyor = if String.IsNullOrWhiteSpace(System.Environment.GetEnvironmentVariable("APPVEYOR")) then false else true
+let appveyor_job_id = System.Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 
 Target "Test" (fun _ ->
     trace "**** Test ****"
 
-    let projects = !! "./Specifications/*.csproj"
+    let currentDir = Directory.GetCurrentDirectory()
+
+    let projects = !! "./Specifications/**/*.csproj"
 
     let testProject project =
-        DotNetCli.Test
-            (fun p ->
-                { p with
-                    Project = project
-                    Configuration = "Release" })
+        tracef "Running tests for : %s" project
+        let args = sprintf "test %s" (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
+        ProcessHelpers.Spawn("dotnet",args) |> ignore
+
+        let resultsFile = "./TestResults/results.trx"
+        if appveyor && File.Exists(resultsFile) then
+            let webClient = new System.Net.WebClient()
+            let url = sprintf "https://ci.appveyor.com/api/testresults/mstest/%s" appveyor_job_id
+            tracef "Posting results to %s" url
+            webClient.UploadFile(url, resultsFile) |> ignore        
 
     projects |> Seq.iter (testProject)
 
