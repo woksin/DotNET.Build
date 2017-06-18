@@ -20,9 +20,15 @@ open Fake
 ///////////////////////////////////////////////////////////////////////////////
 // Targets
 ///////////////////////////////////////////////////////////////////////////////
-Target "All" DoNothing
+Target "RestoreCompileTest" DoNothing
 "RestorePackages" ==> "All"
 "Compile" ==> "All"
 "Test" ==> "All"
+
+Target "All" DoNothing
+"RestoreCompileTest" ==> "All"
+
+Target "Travis" DoNothing
+"RestoreCompileTest" ==> "All"
 
 RunTargetOrDefault "All"
