@@ -2,13 +2,10 @@
 #I "../packages/FAKE/FSharp.Data/lib/net40"
 #r "FakeLib.dll"
 #r "FSharp.Data.dll" 
+#load "Globals.fsx"
 
 open Fake
-
-///////////////////////////////////////////////////////////////////////////////
-// Helpers
-///////////////////////////////////////////////////////////////////////////////
-#load "BuildVersion.fsx"
+open Globals
 
 ///////////////////////////////////////////////////////////////////////////////
 // Imported Targets
@@ -16,13 +13,24 @@ open Fake
 #load "Packages.fsx"
 #load "Compile.fsx"
 #load "Test.fsx"
+#load "AppVeyor.fsx"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Targets
 ///////////////////////////////////////////////////////////////////////////////
+Target "RestoreCompileTest" DoNothing
+"RestorePackages" ==> "RestoreCompileTest"
+"Compile" ==> "RestoreCompileTest"
+"Test" ==> "RestoreCompileTest"
+
 Target "All" DoNothing
-"RestorePackages" ==> "All"
-"Compile" ==> "All"
-"Test" ==> "All"
+"RestoreCompileTest" ==> "All"
+
+Target "AppVeyor" DoNothing
+"UpdateVersionOnBuildServer" ==> "RestoreCompileTest"
+"RestoreCompileTest" ==> "All"
+
+Target "Travis" DoNothing
+"RestoreCompileTest" ==> "All"
 
 RunTargetOrDefault "All"
