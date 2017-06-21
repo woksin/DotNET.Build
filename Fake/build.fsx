@@ -27,8 +27,8 @@ Target "All" DoNothing
 "RestoreCompileTest" ==> "All"
 
 Target "AppVeyor" DoNothing
-"UpdateVersionOnBuildServer" ==> "RestoreCompileTest"
-"RestoreCompileTest" ==> "All"
+"UpdateVersionOnBuildServer" ==> "AppVeyor"
+"RestoreCompileTest" ==> "AppVeyor"
 
 Target "Travis" DoNothing
 "RestoreCompileTest" ==> "All"
