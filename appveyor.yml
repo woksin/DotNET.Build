@@ -1,6 +1,6 @@
 version: 1.0.{build}
 build_script:
-- cmd: .\Build\build.cmd
+- cmd: .\Build\build.cmd AppVeyor
 test: off
 install:
 - cmd: git submodule update --init --recursive
