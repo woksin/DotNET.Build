@@ -2,6 +2,12 @@
 
 Common build for all .NET Based projects.
 
+## Sub module
+
+```terminal
+$ git submodule add https://github.com/dolittle/DotNET.Build.git Build
+```
+
 ## AppVeyor
 
 AppVeyor is the main build service used for .NET projects. It is responsible for compiling, packaging and deployment of packages.
