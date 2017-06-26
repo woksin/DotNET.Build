@@ -11,6 +11,7 @@ open Globals
 // Imported Targets
 ///////////////////////////////////////////////////////////////////////////////
 #load "Packages.fsx"
+#load "UpdateVersionForProjects.fsx"
 #load "Compile.fsx"
 #load "CreatePackages.fsx"
 #load "Test.fsx"
@@ -29,6 +30,7 @@ Target "All" DoNothing
 
 Target "AppVeyor" DoNothing
 "UpdateVersionOnBuildServer" ==> "AppVeyor"
+"UpdateVersionForProjects" ==> "AppVeyor"
 "RestoreCompileTest" ==> "AppVeyor"
 "CreatePackages" ==> "AppVeyor"
 
