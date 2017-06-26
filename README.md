@@ -2,10 +2,24 @@
 
 Common build for all .NET Based projects.
 
-## Sub module
+## Setting up a new project
+
+### Sub module
 
 ```terminal
 $ git submodule add https://github.com/dolittle/DotNET.Build.git Build
+```
+
+### CSharp Project file
+
+```xml
+<PropertyGroup>
+    <AssemblyName>doLittle.{full name of package}</AssemblyName>
+</PropertyGroup>
+```
+
+```xml
+<Import Project="../../Build/MSBuild/default.props"></Import>
 ```
 
 ## AppVeyor
