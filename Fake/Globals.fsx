@@ -19,3 +19,4 @@ type Globals() =
     static member IsWindows with get() = isWindows
     static member IsAppVeyor with get() = isAppVeyor
     static member AppVeyorJobId with get() = appVeyorJobId
+    static member NuGetOutputPath with get() = "artifacts/nuget/"

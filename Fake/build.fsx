@@ -12,6 +12,7 @@ open Globals
 ///////////////////////////////////////////////////////////////////////////////
 #load "Packages.fsx"
 #load "Compile.fsx"
+#load "CreatePackages.fsx"
 #load "Test.fsx"
 #load "AppVeyor.fsx"
 
@@ -29,6 +30,7 @@ Target "All" DoNothing
 Target "AppVeyor" DoNothing
 "UpdateVersionOnBuildServer" ==> "AppVeyor"
 "RestoreCompileTest" ==> "AppVeyor"
+"CreatePackages" ==> "AppVeyor"
 
 Target "Travis" DoNothing
 "RestoreCompileTest" ==> "All"
