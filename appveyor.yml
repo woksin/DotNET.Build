@@ -2,5 +2,8 @@ version: 1.0.{build}
 build_script:
 - cmd: .\Build\build.cmd AppVeyor
 test: off
+artifacts:
+- path: Artifacts\NuGet\*
+  name: NuGet
 install:
 - cmd: git submodule update --init --recursive
