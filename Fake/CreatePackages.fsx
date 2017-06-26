@@ -5,19 +5,21 @@ open Fake.DotNetCli
 open Globals
 
 Target "CreatePackages" (fun _ ->
-    trace "**** Compiling ****"
+    trace "**** CreatePackages ****"
 
-    let projects = !! "./**/*.csproj"
+    let projects = !! "./Source/**/*.csproj"
 
     let buildProject project =
+        tracef "Packing : %s" project
         DotNetCli.Pack
             (fun p ->
                 { p with
                     Project = project
                     Configuration = "Release"
+                    AdditionalArgs = ["--no-build";"--include-symbols";"--include-source"]
                     OutputPath = Globals.NuGetOutputPath })
 
     projects |> Seq.iter (buildProject)
 
-    trace "**** Compiling DONE ****"
+    trace "**** CreatePackages DONE ****"
 )
