@@ -8,11 +8,11 @@ open ProcessHelpers
 
 module Versioning =
     let GetVersionFromGit() = 
-        let result = ProcessHelpers.Spawn("git","tag --sort=-version:refname")
-        tracef "** All Version Tags from GIT : '%s'" result
+        let result = ProcessHelpers.Spawn("git","tag --sort=-version:refname").Trim()
+        tracef "** All Version Tags from GIT : '%s'\n" result
 
         let version = result.Split('\n') |> Seq.filter (fun x -> x.Length > 0) |> Seq.head
-        tracef "** Version From GIT : '%s'" version
+        tracef "** Version From GIT : '%s'\n" version
 
         let buildVersion = new BuildVersion(version)
         buildVersion
