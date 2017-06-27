@@ -1,6 +1,7 @@
 #load "BuildVersion.fsx"
 #load "ProcessHelpers.fsx"
 
+open Fake
 open System
 open BuildVersion
 open ProcessHelpers
