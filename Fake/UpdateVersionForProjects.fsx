@@ -12,6 +12,11 @@ let updateVersionInFile(file:string) =
     let updatedProjectFile = projectFile.Replace("<Version>1.0.0</Version>", newVersionString)
     File.WriteAllText(file, updatedProjectFile)
 
+Target "PrintVersion" (fun _ ->
+    tracef "Version is : %s" (Globals.BuildVersion.AsString())
+)
+
+
 Target "UpdateVersionForProjects" (fun _ ->
     trace "**** UpdateVersionInProjectFiles ****"
 
