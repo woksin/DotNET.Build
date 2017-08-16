@@ -3,7 +3,7 @@ open System.Text
 open System.Text.RegularExpressions
 
 
-let versionRegex = Regex("(\d+).(\d+).(\d+)-*([a-z]+)*[+-]*(\d+)*", RegexOptions.Compiled)
+let versionRegex = Regex("(\d+).(\d+).(\d+)-*([\w]+)*[+-.]*(\d+)*", RegexOptions.Compiled)
 type BuildVersion(major:int, minor:int, patch: int, build:int, preReleaseString:string, release:bool) =
     let major = major
     let minor = minor
