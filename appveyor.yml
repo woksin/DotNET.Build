@@ -17,7 +17,7 @@ install:
 deploy:  
 - provider: NuGet
   server: https://www.myget.org/F/dolittle/api/v2/package
-  symbol_server: https://www.myget.org/F/dolittle/symbols/
+  symbol_server: https://www.myget.org/F/dolittle/symbols/api/v2/package
   api_key:
     secure: uLYRBfBvfoBvNnzdVHF40xCrbGe5qkQaLOjBaTHwgCwdHulAchwcg1vRmae6QjXo
   skip_symbols: false
