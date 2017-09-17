@@ -19,7 +19,7 @@ deploy:
   server: https://www.myget.org/F/dolittle/api/v2/package
   api_key:
     secure: uLYRBfBvfoBvNnzdVHF40xCrbGe5qkQaLOjBaTHwgCwdHulAchwcg1vRmae6QjXo
-  skip_symbols: true
+  skip_symbols: false
   on:
     branch: master
 
