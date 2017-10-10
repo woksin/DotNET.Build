@@ -11,6 +11,7 @@ Target "Compile" (fun _ ->
             (fun p ->
                 { p with
                     Project = project
+                    AdditionalArgs = ["--no-restore"]
                     Configuration = "Release" })
 
     projects |> Seq.iter (buildProject)
