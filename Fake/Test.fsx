@@ -12,7 +12,7 @@ let appveyor_job_id = Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 Target "Test" (fun _ ->
     trace "**** Test ****"
 
-    let projects = !! "./*.sln"
+    let projects = !! "./Specifications/**/*.csproj"
 
     let testProject project =
         tracef "Running tests for : %s\n" project
