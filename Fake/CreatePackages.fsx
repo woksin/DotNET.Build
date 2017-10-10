@@ -7,7 +7,7 @@ open Globals
 Target "CreatePackages" (fun _ ->
     trace "**** CreatePackages ****"
 
-    let projects = !! "./*.sln"
+    let projects = !! "./Source/**/*.csproj"
 
     let buildProject project =
         tracef "Packing : %s" project
