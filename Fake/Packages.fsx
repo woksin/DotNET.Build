@@ -4,7 +4,7 @@ open Fake.DotNetCli
 Target "RestorePackages" (fun _ ->
     trace "**** Restoring packages ****"
 
-    let projects = !! "./**/*.csproj"
+    let projects = !! "./*.sln"
 
     let restoreProject project =
         DotNetCli.Restore

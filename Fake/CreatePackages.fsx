@@ -7,7 +7,7 @@ open Globals
 Target "CreatePackages" (fun _ ->
     trace "**** CreatePackages ****"
 
-    let projects = !! "./Source/**/*.csproj"
+    let projects = !! "./*.sln"
 
     let buildProject project =
         tracef "Packing : %s" project
@@ -16,7 +16,7 @@ Target "CreatePackages" (fun _ ->
                 { p with
                     Project = project
                     Configuration = "Release"
-                    AdditionalArgs = ["--no-build";"--include-symbols";"--include-source"]
+                    AdditionalArgs = ["--no-restore", "--no-build";"--include-symbols";"--include-source"]
                     OutputPath = Globals.NuGetOutputPath })
 
     projects |> Seq.iter (buildProject)

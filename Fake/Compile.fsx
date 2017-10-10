@@ -4,7 +4,7 @@ open Fake.DotNetCli
 Target "Compile" (fun _ ->
     trace "**** Compiling ****"
 
-    let projects = !! "./**/*.csproj"
+    let projects = !! "./*.sln"
 
     let buildProject project =
         DotNetCli.Build

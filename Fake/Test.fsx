@@ -12,11 +12,11 @@ let appveyor_job_id = Environment.GetEnvironmentVariable("APPVEYOR_JOB_ID")
 Target "Test" (fun _ ->
     trace "**** Test ****"
 
-    let projects = !! "./Specifications/**/*.csproj"
+    let projects = !! "./*.sln"
 
     let testProject project =
         tracef "Running tests for : %s\n" project
-        let args = sprintf "test %s %s" project (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
+        let args = sprintf "test --no-restore --no-build %s %s" project (if appveyor then "\"--logger:trx;LogFileName=results.trx\"" else "")
         ProcessHelpers.Spawn("dotnet",args) |> ignore
 
         let resultsFile = Path.Combine(Path.GetDirectoryName(project),"TestResults","results.trx")
