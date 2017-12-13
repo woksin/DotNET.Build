@@ -36,7 +36,7 @@ For specification projects you should use the `specs.props`
 
 ## Visual Studio Code settings
 
-In the `.vscode` folder there is a certain configuration set up that should enable you to get up and running pretty fast with things like building and running specifications, debugging and similar. 
+In the `.vscode` folder there is a certain configuration set up that should enable you to get up and running pretty fast with things like building and running specifications, debugging and similar.
 Since **Visual Studio Code** honors the settings in the `.vscode` folder local to your project you can easily create a symbolic link that points to this. The beauty about symbolic links is that they'll be part of the Git repository as well - meaning that everyone will have this benefit once it has been set up.
 
 You create a symbolic link using the following:
@@ -52,7 +52,7 @@ $ ln -s ./Build/.vscode ./.vscode
 ```
 
 This all depends on the location of things. For instance in projects with multiple projects within Source, you might have a different setup. You **MUST** use relative paths however.
-
+It does however assume you have your `.vscode` folder on the level in which you're opening the workspace, as it will look for a `resolveProject.js` file to help it do the resolving of paths depending on the different tasks you give it.
 
 ## AppVeyor
 
