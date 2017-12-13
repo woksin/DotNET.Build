@@ -6,11 +6,15 @@ Common build for all .NET Based projects.
 
 ### Sub module
 
+This project should be a Git sub-module of your project.
+
 ```shell
 $ git submodule add https://github.com/dolittle/DotNET.Build.git Build
 ```
 
 ### CSharp Project file
+
+In order for the assembly name to be unique, add the following:
 
 ```xml
 <PropertyGroup>
@@ -18,8 +22,16 @@ $ git submodule add https://github.com/dolittle/DotNET.Build.git Build
 </PropertyGroup>
 ```
 
+You can also import the default properties for a .NET Core project.
+
 ```xml
 <Import Project="../../Build/MSBuild/default.props"></Import>
+```
+
+For specification projects you should use the `specs.props`
+
+```xml
+<Import Project="../../Build/MSBuild/specs.props"></Import>
 ```
 
 ## Visual Studio Code settings
