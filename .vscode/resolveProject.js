@@ -110,8 +110,6 @@ if (specsFor == true) {
 }
 log("Directory to run : " + directoryToRun);
 
+directoryToRun = directoryToRun.split(" ").join("\ ");
 
-console.log(directoryToRun);
-
-
-
+console.log('"'+directoryToRun+'"');
