@@ -8,7 +8,7 @@
             "command": "dotnet",
             "args": [
                 "restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:build)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:build)"
             ],
             "type": "shell",
             "group": "none",
@@ -27,7 +27,7 @@
             "args": [
                 "build",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:build)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:build)"
             ],
             "type": "shell",
             "group": {
@@ -50,7 +50,7 @@
                 "build",
                 "--no-dependencies",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:build /ignoreRewriteFolder)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:build /ignoreRewriteFolder)"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -70,7 +70,7 @@
                 "build",
                 "--no-dependencies",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:build)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:build)"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -91,7 +91,7 @@
                 "build",
                 "--no-dependencies",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:build /forTests)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:build /forTests)"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -113,7 +113,7 @@
                 "test",
                 "--no-build",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:test)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:test)"
             ],
             "type": "shell",
             "group": {
@@ -137,7 +137,7 @@
                 "test",
                 "--no-build",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:test /rerun)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:test /rerun)"
             ],
             "type": "shell",
             "group": "test",
@@ -159,7 +159,7 @@
                 "test",
                 "--no-build",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:test)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:test)"
             ],
             "type": "shell",
             "group": "test",
@@ -181,7 +181,7 @@
                 "test",
                 "--no-build",
                 "--no-restore",
-                "$(node ${workspaceFolder}/Build/resolveProject.js /root:${workspaceFolder} /type:test /forTests)"
+                "$(node ${workspaceFolderBasename}/resolveProject.js /root:${workspaceFolder} /type:test /forTests)"
             ],
             "type": "shell",
             "group": "test",
