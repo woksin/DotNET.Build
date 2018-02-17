@@ -21,11 +21,11 @@ let settings = {
 
 
 
-let logFile = "/Users/einari/log";
+//let logFile = "/Users/einari/log";
 //fs.writeFileSync(logFile, "");
 
 function log(message) {
-    fs.appendFileSync(logFile, message + "\n");
+    //fs.appendFileSync(logFile, message + "\n");
 }
 
 log("Current Folder : " + currentDir);
@@ -110,8 +110,6 @@ if (specsFor == true) {
 }
 log("Directory to run : " + directoryToRun);
 
+directoryToRun = directoryToRun.split(" ").join("\ ");
 
-console.log(directoryToRun);
-
-
-
+console.log('"'+directoryToRun+'"');
