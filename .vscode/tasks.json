@@ -18,7 +18,10 @@
             "presentation": {
                 "reveal": "always"
             },
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         
         {
@@ -41,7 +44,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         {
             "taskName": "build current",
@@ -61,7 +67,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         {
             "taskName": "build current for tests",
@@ -70,7 +79,7 @@
                 "build",
                 "--no-dependencies",
                 "--no-restore",
-                "$(node ${workspaceFolder}/.vscode/resolveProject.js /root:${workspaceFolder} /type:build)"
+                "$(node ${workspaceFolder}/.vscode/resolveProject.js /root:${workspaceFolder} /type:build /ignoreRewriteFolder)"
             ],
             "options": {
                 "cwd": "${fileDirname}"
@@ -81,7 +90,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         {
             "taskName": "build tests",
@@ -102,7 +114,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         
         {
@@ -127,7 +142,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         {
             "taskName": "tests rerun",
@@ -148,7 +166,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
 
         {
@@ -170,7 +191,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         },
         
         {
@@ -195,7 +219,10 @@
                 }
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }
         }
         
     ]
