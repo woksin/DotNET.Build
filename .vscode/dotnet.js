@@ -36,7 +36,7 @@ process.argv.forEach((item, index) => {
     }
     if (item.indexOf("/arguments:") == 0) {
         let args = item.substr("/arguments:".length);
-        args = args.substr(1, args.length - 2);
+        if( args.indexOf("(") == 0 ) args = args.substr(1, args.length - 2);
         dotnetArguments = args.split(" ");
     }
 });
@@ -48,8 +48,7 @@ if (rootDir.length == 0) {
 
 let project = resolveProject(rootDir, type, ignoreRewriteFolder, rerun, forTests);
 console.log("Project context: " + project);
+console.log("Arguments for dotnet : "+dotnetArguments);
 dotnetArguments.push(project);
 
-let child = spawn("dotnet", dotnetArguments, { stdio: "inherit", stderr: "inherit" });
-//child.stdout.on("data", data => process.stdout.write(data.toString()));
-//child.stderr.on("data", data => process.stdout.write(data.toString()));
+spawn("dotnet", dotnetArguments, { stdio: "inherit", stderr: "inherit" });

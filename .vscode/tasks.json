@@ -10,7 +10,7 @@
                 "${workspaceFolder}/.vscode/dotnet.js",
                 "/root:${workspaceFolder}",
                 "/type:build",
-                "arguments:(restore)",               
+                "/arguments:restore",
             ],
             "type": "shell",
             "group": "none",
@@ -95,6 +95,7 @@
             "presentation": {
                 "reveal": "always"
             },
+            
             
             "problemMatcher": {
                 "base": "$msCompile",
