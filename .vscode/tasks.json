@@ -9,7 +9,7 @@
             "args": [
                 "${workspaceFolder}/.vscode/dotnet.js",
                 "/root:${workspaceFolder}",
-                "/type:build",
+                "/type:build)",
                 "arguments:(restore)",               
             ],
             "type": "shell",
@@ -20,7 +20,10 @@
             "presentation": {
                 "reveal": "always"
             },
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         
         {
@@ -29,7 +32,7 @@
             "args": [
                 "${workspaceFolder}/.vscode/dotnet.js",
                 "/root:${workspaceFolder}",
-                "/type:build",
+                "/type:build)",
                 "/arguments:(build --no-restore)"
             ],
             "type": "shell",
@@ -44,7 +47,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         {
             "label": "build current",
@@ -67,7 +73,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         {
             "label": "build current for tests",
@@ -87,7 +96,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         {
             "label": "build tests",
@@ -109,7 +121,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         
         {
@@ -134,7 +149,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         {
             "label": "tests rerun",
@@ -156,7 +174,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
 
         {
@@ -178,7 +199,10 @@
                 "reveal": "always"
             },
             
-            "problemMatcher": "$msCompile"
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
         },
         
         {
@@ -204,7 +228,11 @@
                 }
             },
             
-            "problemMatcher": "$msCompile"
-        }       
+            "problemMatcher": {
+                "base": "$msCompile",
+                "fileLocation": ["absolute"]
+            }            
+        }
+        
     ]
 }
