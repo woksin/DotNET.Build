@@ -18,7 +18,7 @@ In order for the assembly name to be unique, add the following:
 
 ```xml
 <PropertyGroup>
-    <AssemblyName>doLittle.{full name of package}</AssemblyName>
+    <AssemblyName>Dolittle.{full name of package}</AssemblyName>
 </PropertyGroup>
 ```
 
