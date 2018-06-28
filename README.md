@@ -99,6 +99,38 @@ This gives you the following:
 | cmd+alt+shift+f5 | Reruns last testrun |
 | cmd+shift+r | Restore packages for current project based on open file |
 
+### Debugging tests
+
+When debugging tests, make sure **Visual Studio Code** is configured to attach to processes
+
+![](images/debugger_attach.png)
+
+Go and set your breakpoints in specs or systems.
+For starting debugging, use the `test debug` task (cmd+alt+f6 with the keybindings above, you'll get in the terminal the process Id of the process to
+attach to:
+
+```shell
+Starting test execution, please wait...
+Host debugging is enabled. Please attach debugger to testhost process to continue.
+Process Id: 16408, Name: dotnet
+Waiting for debugger attach...
+Process Id: 16408, Name: dotnet
+```
+
+Then you simply hit debug (F5 - with default keybindings) and you find the process in the list:
+
+![](images/debugger_select_process.png)
+
+The debug toolbar should show up and it will be showing the pause button:
+
+![](images/debugger_pause_button.png)
+
+After a little while, this changes to a play-like button:
+
+![](images/debugger_continue.png)
+
+That means its ready to be continued, you can click the button or just press F5 to continue (with default keybindings).
+
 ## AppVeyor
 
 AppVeyor is the main build service used for .NET projects. It is responsible for compiling, packaging and deployment of packages.
