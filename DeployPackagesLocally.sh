@@ -1,43 +1,29 @@
 #!/bin/bash
-export CURRENTDIR=$PWD;
-export FOUND='';
-find_nearest_parent_directory() {
-    while [[ $PWD != / ]] ; do 
-        if [ -z "$FOUND" ]; then
-            FOUND=$(find "$PWD" -type d -maxdepth 1 -name "*$@" | head -1)
-            echo $FOUND
-        fi
-        cd ..
-    done
-}
+export PACKAGEDIR=$PWD/Packages
+export PACKAGEVERSION=2.0.0-alpha2.1000
+export TARGETROOT=~/.nuget/packages
 
-echo "before running"
-export PACKAGEDIR=$(find_nearest_parent_directory 'Packages')
-echo "after running $PACKAGEDIR"
-cd $CURRENTDIR
+find $TARGETROOT/ -name $PACKAGEVERSION -exec rm -rf {} \;
 
-echo "Current Directory: $CURRENTDIR"
-
-if [ -z "$PACKAGEDIR" ]; then
-    echo "No 'Packages' directory found"
-    exit 1;
+if [ ! -d "$PACKAGEDIR" ]; then
+    mkdir $PACKAGEDIR
 fi
 
-if [ ! -z "$PACKAGEDIR" ]; then
-    echo "'Packages' directory found: $PACKAGEDIR"
-    echo "Clearing local dolittle packages 2.0.0-alpha2.1000 from nuget cache"
-    find ~/.nuget/packages/ -name 2.0.0-alpha2.1000 -exec rm -rf {} \;
-    echo "Removing existing packages in $PACKAGEDIR"
-    rm $PACKAGEDIR/*
-    echo "Creating nuget packages in $PACKAGEDIR"
-    dotnet pack -p:PackageVersion=2.0.0-alpha2.1000 --include-symbols --include-source -o $PACKAGEDIR
-    #remove symbols from the file name
-    for f in $PACKAGEDIR/*.symbols.nupkg; do
-        mv ${f} ${f/.symbols/}
-    done
-    echo "Created..."
-    for entry in $PACKAGEDIR/*
-    do
-      echo $entry
-    done
-fi
+#rm $PACKAGEDIR/*
+dotnet pack -p:PackageVersion=$PACKAGEVERSION --include-symbols --include-source -o $PACKAGEDIR
+
+for f in $PACKAGEDIR/*.symbols.nupkg; do
+  mv ${f} ${f/.symbols/}
+done
+# Convert files to lowercase
+for i in $PACKAGEDIR/*; do mv $i `echo $i | tr [:upper:] [:lower:]`; done
+
+for f in $PACKAGEDIR/*.nupkg; do
+    echo ""
+    packagename=$(basename ${f%.2.0.0-alpha2.1000.nupkg})
+    target=$TARGETROOT/$packagename/$PACKAGEVERSION
+
+    mkdir -pv $target && cp -v $f $target
+    tar -xzf $target/$(basename $f) -C $target
+
+done
