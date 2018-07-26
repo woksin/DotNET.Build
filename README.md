@@ -191,26 +191,22 @@ For this to be successful, you **need** to follow these steps.
 
 Prerequisites:
 1. Make sure that you have a .nuget/packages folder in your root/HOME/~ directory
-2. Make sure that you have your own local copies of https://github.com/dolittle/DotNET.Fundamentals, https://github.com/dolittle/DotNET.SDK and https://github.com/dolittle/Runtime
-3. If the project that you are going to debug has other dolittle dependencies (for example from dolittle-interactions or dolittle-extensions) you need to have local copies of them as well.
-4. Make sure the Build sub-module is up to date (git submodule update --remote --merge)
+2. Make sure the Build sub-module is up to date (git submodule update --remote --merge)
 
 Steps for deploying packages locally:
-1. You want to make sure that when building and packing the solutions they use the locally generated packages (the ones the DeployPackagesLocally.sh script creates and copies into the right place in %HOME%/.nuget/packages)
-    * This is not the case for Dolittle/DotNET.Fundamentals, since it does not have dependency on other dolittle packages.
-    * For the other solutions, in the parent directory (the directory where the Build folder is present) there should be a NuGet.Config file, that file should have a reference to the local packages folder.
-    this is achieved by having ( <add key="local" value="%HOME%/.nuget/packages"/> ) as a child of a <packageSources> tag.
+1. You want to make sure that when building and packing the solutions they use the locally generated packages (the ones the DeployPackagesLocally.sh script creates and copies into the right place in %HOME%/.nuget/packages). This means for the solution, you need to have a packageSource feed that points to %HOME%/.nuget/packages.
+    * This can be achieved by, for example, having a 
+     ```
+     <add key="local" value="%HOME%/.nuget/packages"/>
+     ``` 
+     as a child of a packageSources tag in the configuration tag in the top-level Nuget.Config file
+
 2. When in the parent directory of the solution you want to build (The folder where the Build folder is present) execute the following commands in this exact order:
     1. dotnet clean (just in case)
     2. nuget restore
     3. dotnet build
     4. Build/DeployPackagesLocally.sh
-3. It is **important** that you build the packages in the right order!
-    1. Dolittle/DotNET.Fundamentals
-    2. Dolittle/Runtime
-    3. Dolittle/DotNET.SDK
-    4. All other dependencies
-        * Note that the other dependencies **should** not have dependencies on each other. If they have, then there can be trouble when creating the packages.
-        If you're having trouble with dependencies (assemblies not loading or similar errors at startup) then this might be the cause. Check the other dependencies if they have dependencies on each other and build and package them in the correct ordering.
-4. Make sure that the application that you want to debug also has a packageSource reference to %HOME%/.nuget/packages. Do a dotnet clean && nuget restore && dotnet restore to ensure that the solution is using the locally deployed packages.
-5. Happy debugging!
+
+3. Make sure that the application that you want to debug also has a packageSource reference to %HOME%/.nuget/packages. Do a dotnet clean && nuget restore && dotnet restore to ensure that the solution is using the locally deployed packages.
+    * Note that if you're having trouble with dependencies (assemblies not loading or similar errors at startup) then this might be the cause. Check the other dependencies if they have dependencies on each other and build and package them in the correct ordering.
+4. Happy debugging!
