@@ -1,5 +1,8 @@
 <Project>
     <PropertyGroup>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+    </PropertyGroup>
+    <PropertyGroup>
         <DefaultItemExcludes>gulp\**\*;node_modules\**\*;jspm_packages\**\*;bower_components\**\*;wwwroot\**\*;bin\**\*;obj\**\*</DefaultItemExcludes>
     </PropertyGroup>
     <ItemGroup>
@@ -8,6 +11,5 @@
         <PackageReference Include="Machine.Specifications" Version="0.12.0" />
         <PackageReference Include="Machine.Specifications.Should" Version="0.11.0" />
         <PackageReference Include="moq" Version="4.7.*" />
-        <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="1.0.0-*" />
     </ItemGroup>
 </Project>
