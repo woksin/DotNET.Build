@@ -212,4 +212,5 @@ Steps for deploying packages locally:
     4. All other dependencies
         * Note that the other dependencies **should** not have dependencies on each other. If they have, then there can be trouble when creating the packages.
         If you're having trouble with dependencies (assemblies not loading or similar errors at startup) then this might be the cause. Check the other dependencies if they have dependencies on each other and build and package them in the correct ordering.
-4. Now your application should be able to debug into dolittle source code!
+4. Make sure that the application that you want to debug also has a packageSource reference to %HOME%/.nuget/packages. Do a dotnet clean && nuget restore && dotnet restore to ensure that the solution is using the locally deployed packages.
+5. Happy debugging!
