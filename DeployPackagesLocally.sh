@@ -1,15 +1,29 @@
 #!/bin/bash
-export PACKAGEDIR=$PWD/../Packages
-
-find ~/.nuget/packages/ -name 2.0.0-alpha2.1000 -exec rm -rf {} \;
+export PACKAGEDIR=$PWD/Packages
+export PACKAGEVERSION=2.0.0-alpha2.1000
+export TARGETROOT=~/.nuget/packages
 
 if [ ! -d "$PACKAGEDIR" ]; then
     mkdir $PACKAGEDIR
 fi
 
-#rm $PACKAGEDIR/*
-dotnet pack -p:PackageVersion=2.0.0-alpha2.1000 --include-symbols --include-source -o $PACKAGEDIR
+rm $PACKAGEDIR/*
+dotnet pack -p:PackageVersion=$PACKAGEVERSION --include-symbols --include-source -o $PACKAGEDIR
 
-for f in ../Packages/*.symbols.nupkg; do
+for f in $PACKAGEDIR/*.symbols.nupkg; do
   mv ${f} ${f/.symbols/}
+done
+
+for f in $PACKAGEDIR/*.nupkg; do
+    echo ""
+    packagename=$(basename ${f%.2.0.0-alpha2.1000.nupkg})
+    target=$TARGETROOT/$packagename/$PACKAGEVERSION
+    # Delete outdated .nupkg 
+    find $TARGETROOT/$packagename -name $PACKAGEVERSION -exec rm -rf {} \;
+
+    mkdir -pv $target && cp -v $f $target
+    # Unzip package
+    tar -xzf $target/$(basename $f) -C $target
+    # Create an empty .sha512 file, or else it won't recognize the package for some reason
+    touch $target/$(basename $f).sha512
 done
