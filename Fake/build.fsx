@@ -34,6 +34,11 @@ Target "AppVeyor" DoNothing
 "RestoreCompileTest" ==> "AppVeyor"
 "CreatePackages" ==> "AppVeyor"
 
+Target "DeployFromLocal" DoNothing
+"UpdateVersionForProjects" ==> "DeployFromLocal"
+"RestoreCompileTest" ==> "DeployFromLocal"
+"CreatePackages" ==> "DeployFromLocal"
+
 Target "Travis" DoNothing
 "RestoreCompileTest" ==> "All"
 
