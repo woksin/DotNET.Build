@@ -2,24 +2,25 @@
     <PropertyGroup>
         <Version>1.0.0</Version>
         <Description>Dolittle is a platform designed to build Line of Business applications without sacrificing architectural quality, code quality or scalability.</Description>
-        <Copyright>Copyright 2008 - 2017 doLittle</Copyright>
+        <Copyright>Copyright Dolittle</Copyright>
         <Authors>all contributors</Authors>
         <DebugType>portable</DebugType>
         <PackageTags>MVVM;SOLID;CQRS;LOB</PackageTags>
         <PackageReleaseNotes>https://github.com/dolittle/Home/blob/master/CHANGELOG.md</PackageReleaseNotes>
         <PackageIconUrl>https://github.com/dolittle/Home/raw/master/Media/Logo/logo_128x128.png</PackageIconUrl>
-        <PackageLicenseUrl>https://github.com/dolittle/Home/blob/master/LICENSE</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/dolittle/Home</RepositoryUrl>
         <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
         <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
 
         <DefaultItemExcludes>gulp\**\*;node_modules\**\*;jspm_packages\**\*;bower_components\**\*;wwwroot\**\*;bin\**\*;obj\**\*</DefaultItemExcludes>
-
+        <NoWarn>NU5105</NoWarn>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <TreatSpecificWarningsAsErrors />
         <AllowUnsafeBlocks>True</AllowUnsafeBlocks>        
         <DocumentationFile>$()../../Artifacts/$(AssemblyName).xml</DocumentationFile>
+        <IsTestProject>false</IsTestProject>
     </PropertyGroup>
 
     <ItemGroup>

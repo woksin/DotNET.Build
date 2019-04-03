@@ -1,6 +1,6 @@
 #!/bin/bash
 export PACKAGEDIR=$PWD/Packages
-export PACKAGEVERSION=2.0.0-alpha2.1000
+export PACKAGEVERSION=2.1000.0
 export TARGETROOT=~/.nuget/packages
 
 if [ ! -d "$PACKAGEDIR" ]; then
@@ -16,7 +16,7 @@ done
 
 for f in $PACKAGEDIR/*.nupkg; do
     echo ""
-    packagename=$(basename ${f%.2.0.0-alpha2.1000.nupkg})
+    packagename=$(basename ${f%.2.1000.0.nupkg})
     target=$TARGETROOT/$packagename/$PACKAGEVERSION
     # Delete outdated .nupkg 
     find $TARGETROOT/$packagename -name $PACKAGEVERSION -exec rm -rf {} \;
